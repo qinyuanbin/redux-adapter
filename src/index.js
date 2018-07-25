@@ -1,9 +1,9 @@
-import { INITIAL_REDUCERS } from './src/consts';
-import { setStore } from './src/utils';
-export * from './src/parser';
-export * from './src/utils';
-export * from './src/adapter';
+import { INITIAL_REDUCERS } from './consts';
+import { setStore } from './utils';
 
+export * from './parser';
+export * from './utils';
+export * from './adapter';
 
 export default {
     /**

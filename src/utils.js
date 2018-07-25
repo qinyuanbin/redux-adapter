@@ -4,18 +4,6 @@
 import { combineReducers } from 'redux';
 import { ADAPTER_ID, INITIAL_REDUCERS, DYNAMIC_REDUCERS, NAME } from './consts';
 
-export function getState(state, props) {
-    return state[props[ADAPTER_ID]];
-}
-
-export function getStore(store, key) {
-    return store[NAME] && store[NAME][key];
-}
-
-export function setStore(store, key, value) {
-    store[NAME][key] = value;
-}
-
 const getInitialReducer = store => {
     let reducer = getStore(store, INITIAL_REDUCERS);
     if (!reducer) {
@@ -31,6 +19,7 @@ const getDynamicReducer = store => {
     }
     return reducer;
 };
+
 const setDynamicReducer = (store, id, reducer) => {
     if (reducer) {
         getDynamicReducer(store)[id] = reducer;
@@ -38,6 +27,25 @@ const setDynamicReducer = (store, id, reducer) => {
         delete getDynamicReducer(store)[id];
     }
 };
+
+const updateReducer = store => {
+    store.replaceReducer(combineReducers({
+        ...getInitialReducer(store),
+        ...getDynamicReducer(store)
+    }));
+};
+
+export function getState(state, props) {
+    return state[props[ADAPTER_ID]];
+}
+
+export function getStore(store, key) {
+    return store[NAME] && store[NAME][key];
+}
+
+export function setStore(store, key, value) {
+    store[NAME][key] = value;
+}
 
 export function addReducer(store, id, reducer) {
     setDynamicReducer(store, id, reducer);
@@ -47,11 +55,4 @@ export function addReducer(store, id, reducer) {
 export function removeReducer(store, id) {
     setDynamicReducer(store, id, null);
     updateReducer(store);
-}
-
-function updateReducer(store) {
-    store.replaceReducer(combineReducers({
-        ...getInitialReducer(store),
-        ...getDynamicReducer(store)
-    }));
 }

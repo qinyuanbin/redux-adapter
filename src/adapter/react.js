@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import parse from '../parser';
-import { addReducer, removeReducer } from '../..';
+import { addReducer, removeReducer } from '../utils';
 import { ADAPTER_ID } from '../consts';
 
 export default function(reduxTransitions) {
