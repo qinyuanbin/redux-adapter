@@ -1,6 +1,6 @@
 {
   "name": "redux-adapter",
-  "version": "0.0.1-3",
+  "version": "0.0.1-4",
   "description": "Less and better code to write redux.",
   "repository": {
     "url": "https://github.com/qinyuanbin/redux-adapter.git",
@@ -18,7 +18,7 @@
   ],
   "author": "qinyuanbin",
   "license": "MIT",
-  "peerDependencies": {
+  "dependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "redux": "^4.0.0"
