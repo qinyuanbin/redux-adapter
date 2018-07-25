@@ -1,6 +1,6 @@
 {
   "name": "redux-adapter",
-  "version": "0.0.1-4",
+  "version": "0.0.1-5",
   "description": "Less and better code to write redux.",
   "repository": {
     "url": "https://github.com/qinyuanbin/redux-adapter.git",
