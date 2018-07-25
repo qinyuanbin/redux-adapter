@@ -1,6 +1,6 @@
 {
   "name": "redux-adapter",
-  "version": "1.1.1",
+  "version": null,
   "description": "Less and better code to write redux.",
   "repository": {
     "url": "https://github.com/qinyuanbin/redux-adapter.git",
@@ -8,8 +8,9 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "release": "npm run transpile --copy-files && standard-version && git push --follow-tags origin master && npm publish",
-    "transpile": "babel src -d dist"
+    "release": "npm run transpile && standard-version && git push --follow-tags origin master && npm publish",
+    "prerelease": "npm run transpile && standard-version --prerelease && git push --follow-tags origin master && npm publish --tag prerelease",
+    "transpile": "babel src -d dist --copy-files"
   },
   "keywords": [
     "redux",
