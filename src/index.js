@@ -1,4 +1,4 @@
-import { INITIAL_REDUCERS } from './consts';
+import { INITIAL_REDUCERS, NAME } from './consts';
 import { setStore } from './utils';
 
 export * from './parser';
