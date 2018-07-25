@@ -13,19 +13,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.default = function (transition, id) {
     var actions = {};
-    var reducers = function reducers() {
+    var reducer = function reducer() {
         return {};
     };
-    var namespace = transition.name;
     var events = transition.events;
     var initialState = transition.initialState || {};
-    var capitalizeFirstLetter = function capitalizeFirstLetter(word) {
-        return word.replace(/^./, function (m) {
-            return m.toUpperCase();
-        });
-    };
     var formatActionType = function formatActionType(actionName) {
-        return '' + namespace + capitalizeFirstLetter(actionName) + (id ? '_' + id : '');
+        return id + '.' + actionName;
     };
 
     if (events) {
@@ -47,16 +41,16 @@ exports.default = function (transition, id) {
             _loop(name);
         }
 
-        reducers = function reducers() {
+        reducer = function reducer() {
             var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
             var action = arguments[1];
 
             // 只处理相同namespace的action
-            if (action.type.indexOf(namespace) === 0) {
+            if (action.type.indexOf(id) === 0) {
                 for (var name in events) {
                     if (events.hasOwnProperty(name) && action.type === formatActionType(name)) {
-                        var reducer = events[name].reducer;
-                        var newState = reducer ? reducer(state, action.payload) : {};
+                        var _reducer = events[name].reducer;
+                        var newState = _reducer ? _reducer(state, action.payload) : {};
                         return _extends({}, initialState, state, newState);
                     }
                 }
@@ -66,7 +60,7 @@ exports.default = function (transition, id) {
         };
     }
 
-    return { actions: actions, reducers: reducers, initialState: initialState };
+    return { actions: actions, reducer: reducer, initialState: initialState };
 };
 
 ;

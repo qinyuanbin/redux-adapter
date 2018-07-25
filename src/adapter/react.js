@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { object } from 'prop-types';
 import parse from '../parser';
 import { addReducer, removeReducer } from '../utils';
-import { ADAPTER_ID } from '../consts';
+import { ADAPTER_ID, INITIAL_STATE } from '../consts';
 
-export default function(reduxTransitions) {
+export function react(reduxTransitions) {
     return function(UiComponent) {
         class WrappedComponent extends Component {
             static id = 0;
@@ -14,29 +14,30 @@ export default function(reduxTransitions) {
 
             constructor(props, context) {
                 super(props, context);
-                const id = this.props[ADAPTER_ID] || this.props.id || WrappedComponent.id++
-                reduxTransitions.name = WrappedComponent.displayName;
-                this[ADAPTER_ID] = id;
-                this.transitions = parse(reduxTransitions, id);
+                const id = this.props[ADAPTER_ID] || WrappedComponent.id++;
+                const apapterId =  `${WrappedComponent.displayName}(${id})`;
+                this[ADAPTER_ID] = apapterId;
+                this.transitions = parse(reduxTransitions, apapterId);
             }
 
             getAdapterId() {
-                return this[ADAPTER_ID];
+                return this.props[ADAPTER_ID];
             }
 
-            componentDidMount() {
-                addReducer(this.context.store, getAdapterId(), this.transitions.reducers);
+            UNSAFE_componentWillMount() {
+                addReducer(this.context.store, this.getAdapterId(), this.transitions.reducer);
             }
 
             componentWillUnmount() {
-                removeReducer(this.context.store, getAdapterId());
+                removeReducer(this.context.store, this.getAdapterId());
             }
 
             render() {
                 const uiProps = {
                     ...this.props,
                     actions: this.transitions.actions,
-                    [ADAPTER_ID]: getAdapterId()
+                    [ADAPTER_ID]: this.getAdapterId(),
+                    [INITIAL_STATE]: this.transitions.initialState
                 };
 
                 return <UiComponent {...uiProps}/>;

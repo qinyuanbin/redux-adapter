@@ -13,6 +13,6 @@ export default {
      */
     init: (store, initialReducers) => {
         store[NAME] = {}; // create namespace in store
-        setStore(store,  INITIAL_REDUCERS, initialReducers);
+        setStore(store, INITIAL_REDUCERS, initialReducers);
     }
 };

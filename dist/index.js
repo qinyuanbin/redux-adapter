@@ -49,7 +49,7 @@ exports.default = {
      * @param {object} initialReducers
      */
     init: function init(store, initialReducers) {
-        store[NAME] = {}; // create namespace in store
+        store[_consts.NAME] = {}; // create namespace in store
         (0, _utils.setStore)(store, _consts.INITIAL_REDUCERS, initialReducers);
     }
 };

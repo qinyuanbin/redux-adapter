@@ -30,7 +30,8 @@ var getInitialReducer = function getInitialReducer(store) {
 var getDynamicReducer = function getDynamicReducer(store) {
     var reducer = getStore(store, _consts.DYNAMIC_REDUCERS);;
     if (!reducer) {
-        reducer = setStore(store, _consts.DYNAMIC_REDUCERS, {});
+        reducer = {};
+        setStore(store, _consts.DYNAMIC_REDUCERS, reducer);
     }
     return reducer;
 };
@@ -47,8 +48,8 @@ var updateReducer = function updateReducer(store) {
     store.replaceReducer((0, _redux.combineReducers)(_extends({}, getInitialReducer(store), getDynamicReducer(store))));
 };
 
-function getState(state, props) {
-    return state[props[_consts.ADAPTER_ID]];
+function getState(state, props, transitions) {
+    return _extends({}, transitions && transitions[_consts.INITIAL_STATE], state[props[_consts.ADAPTER_ID]]);
 }
 
 function getStore(store, key) {

@@ -2,7 +2,7 @@
  * utils for redux actions, reducers and store
  */
 import { combineReducers } from 'redux';
-import { ADAPTER_ID, INITIAL_REDUCERS, DYNAMIC_REDUCERS, NAME } from './consts';
+import { ADAPTER_ID, INITIAL_REDUCERS, DYNAMIC_REDUCERS, NAME, INITIAL_STATE } from './consts';
 
 const getInitialReducer = store => {
     let reducer = getStore(store, INITIAL_REDUCERS);
@@ -15,7 +15,8 @@ const getInitialReducer = store => {
 const getDynamicReducer = store => {
     let reducer = getStore(store, DYNAMIC_REDUCERS);;
     if (!reducer) {
-        reducer = setStore(store ,DYNAMIC_REDUCERS, {});
+        reducer = {};
+        setStore(store ,DYNAMIC_REDUCERS, reducer);
     }
     return reducer;
 };
@@ -35,8 +36,11 @@ const updateReducer = store => {
     }));
 };
 
-export function getState(state, props) {
-    return state[props[ADAPTER_ID]];
+export function getState(state, props, transitions) {
+    return  {
+        ...(transitions && transitions[INITIAL_STATE]),
+        ...state[props[ADAPTER_ID]]
+    };
 }
 
 export function getStore(store, key) {

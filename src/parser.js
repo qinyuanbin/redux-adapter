@@ -5,12 +5,10 @@
  */
 export default function(transition, id) {
     let actions = {};
-    let reducers = () => { return {}; };
-    const namespace = transition.name;
+    let reducer = () => { return {}; };
     const events = transition.events;
     const initialState = transition.initialState || {};
-    const capitalizeFirstLetter = word => word.replace(/^./, m => m.toUpperCase());
-    const formatActionType = actionName => `${namespace}${capitalizeFirstLetter(actionName)}${id ? '_' + id : ''}`;
+    const formatActionType = actionName => `${id}.${actionName}`;
 
     if (events) {
         for (let name in events) {
@@ -24,9 +22,9 @@ export default function(transition, id) {
             };
         }
 
-        reducers = (state = {}, action) => {
+        reducer = (state = {}, action) => {
             // 只处理相同namespace的action
-            if (action.type.indexOf(namespace) === 0) {
+            if (action.type.indexOf(id) === 0) {
                 for (let name in events) {
                     if (events.hasOwnProperty(name) && action.type === formatActionType(name)) {
                         const reducer = events[name].reducer;
@@ -40,5 +38,5 @@ export default function(transition, id) {
         };
     }
 
-    return { actions, reducers, initialState };
+    return { actions, reducer, initialState };
 };

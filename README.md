@@ -41,17 +41,14 @@ import ReduxAdapter from 'redux-adapter';
 
 const initialState = {};
 const initialReducers = {};
-const store = createStore(
-    combineReducers({ ...initialReducers }),
-    initialState
-);
+const store = createStore(state => state, initialState);
 
 ReduxAdapter.init(store, initialReducers);
 
 export { store };
 ```
 
-transitions(`actions` and `reducers`), filename `./todoList.state.js`:
+transitions(`actions` and `reducers`), filename `./todoList.redux.js`:
 ```javascript
 export default {
     name: 'todo-list',
@@ -115,10 +112,10 @@ this.props.dispatch(this.props.actions.addTodo('eating'));
 ```
 
 
-- recomment giving a unique `redux-adapter-id` for each component, if you want to save and restore state. Because multiple component at the same time. `ReduxApdater` will find the id in props order in: `redux-adapter-id` -> `id`, if you don't assign this, `redux-adapter` will useing a global auto increasement number for this.
+- recomment giving a unique `reduxAdapterId` for each component, if you want to save and restore state. Because multiple component at the same time. `ReduxApdater` will find the id in props order in: `reduxAdapterId`, if you don't assign this, `redux-adapter` will useing a global auto increasement number for this.
 ```javascript
-<SomeComponentUsingReduxAdapter redux-adapter-id="component-1" />
-<SomeComponentUsingReduxAdapter redux-adapter-id="component-2" />
+<SomeComponentUsingReduxAdapter reduxAdapterId="component-1" />
+<SomeComponentUsingReduxAdapter reduxAdapterId="component-2" />
 ```
 
 ---------------------
