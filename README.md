@@ -1,3 +1,7 @@
+# DEPRECATED
+============
+Bad practice of using redux.
+
 # REDUX-ADAPTER
 1. spliting and writing actions and reducers into pieces base on components.
 2. automatically add and remove reducers of redux store with component lifecycle.
